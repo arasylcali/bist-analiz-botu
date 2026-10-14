@@ -45,7 +45,7 @@ if st.button('Analiz et',type='primary'):
         breakout=a.Close>a.Resistance20 and a.Volume>1.5*a.Vol20
         st.subheader(f'{symbol} • {df.index[-1].date()}')
         cols=st.columns(5)
-        for col,(label,val) in zip(cols,[('Kapanış',f'{a.Close:.2f} TL'),('RSI 14',f'{a.RSI:.1f}'),('MACD',f'{a.MACD:.3f}'),('Hacim / 20G',f'{a.Volume/a.Vol20:.2f}x'),('ATR 14',f'{a.ATR:.2f} TL')]): col.metric(label,val)
+        for col,(label,val) in zip(cols,[('Kapanış',f'{a.Close:.2f} TL'),('RSI 14',f'{a.RSI:.1f}'),('MACD',f'{a.MACD:.5f}'),('Hacim / 20G',f'{a.Volume/a.Vol20:.2f}x'),('ATR 14',f'{a.ATR:.2f} TL')]): col.metric(label,val)
         notes=[f'MACD: {"bugün yukarı kesişim" if bull_cross else "bugün aşağı kesişim" if bear_cross else "bugün yeni kesişim yok"}; sıfırın {"üzerinde" if a.MACD>0 else "altında"}.',f'RSI: {a.RSI:.1f} ({"70 üzeri" if a.RSI>=70 else "30 altı" if a.RSI<=30 else "50 üzeri" if a.RSI>=50 else "30–50 arası"}).',f'EMA: EMA9 {"EMA21 üzerinde" if a.EMA9>a.EMA21 else "EMA21 altında"}.',f'Hacim: 20 günlük ortalamanın {a.Volume/a.Vol20:.2f} katı.',f'20G destek/direnç: {a.Support20:.2f} / {a.Resistance20:.2f} TL.',f'60G destek/direnç: {a.Support60:.2f} / {a.Resistance60:.2f} TL.',f'20G direnç üstünde hacimli kapanış: {"Evet" if breakout else "Hayır"}.']
         st.info('\n\n'.join(notes))
         fig=make_subplots(rows=4,cols=1,shared_xaxes=True,vertical_spacing=.035,row_heights=[.46,.16,.20,.18],subplot_titles=['Fiyat / EMA / Bollinger / Destek-Direnç','Hacim','MACD / Sinyal / Histogram','RSI'])
